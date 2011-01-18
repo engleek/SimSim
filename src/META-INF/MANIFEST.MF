@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: j3dcore.jar j3d-vrml97.jar vecmath.jar j3dutils.jar
+Main-Class: fr.istic.simsim.SimSim
+
