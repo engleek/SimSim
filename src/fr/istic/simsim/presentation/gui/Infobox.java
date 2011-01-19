@@ -10,10 +10,10 @@ public class Infobox extends JPanel {
 
     private JSplitPane splitPane;
 
+    private DefaultListModel clients;
+
     private JTree entityList;
     private JList clientList;
-
-    private Vector<String> clients = new Vector<String>();
 
     public Infobox() {
         super(new GridLayout(1, 0));
@@ -21,10 +21,10 @@ public class Infobox extends JPanel {
         setSize(200, 600);
         setPreferredSize(getSize());
 
+        clients = new DefaultListModel();
+
         entityList = new JTree();
         clientList = new JList(clients);
-
-        clients.add("You");
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, entityList, clientList);
         splitPane.setOneTouchExpandable(true);
@@ -38,5 +38,9 @@ public class Infobox extends JPanel {
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
         add(splitPane);
+    }
+
+    public void addClient(String name) {
+        clients.addElement(name);
     }
 }

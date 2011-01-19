@@ -1,8 +1,8 @@
 package fr.istic.simsim.controle.client;
 
-import fr.istic.simsim.SimSim;
+import fr.istic.simsim.Config;
 import fr.istic.simsim.controle.CSimSim;
-import fr.istic.simsim.controle.Message;
+import fr.istic.simsim.controle.messages.MulticastCommand;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.net.MulticastSocket;
 
 public class ClientMulticastThread extends Thread implements MulticastInterface {
 
-    private CSimSim controle;
+    private CSimSim control;
 
     private boolean running = true;
 
@@ -23,21 +23,21 @@ public class ClientMulticastThread extends Thread implements MulticastInterface 
         this("SimSimServerThread", controle);
     }
 
-    public ClientMulticastThread(String name, CSimSim controle) throws IOException {
+    public ClientMulticastThread(String name, CSimSim control) throws IOException {
         super(name);
 
-        this.controle = controle;
+        this.control = control;
 
-        socket = new MulticastSocket(SimSim.multicastPort);
-        socket.joinGroup(InetAddress.getByName(SimSim.multicastHost));
+        socket = new MulticastSocket(Config.multicastPort);
+        socket.joinGroup(InetAddress.getByName(Config.multicastHost));
 
-        SimSim.log("", "Multicast Client ready");
+        Config.log("", "Multicast Client ready");
     }
 
     @Override
     public void run() {
         while (running) {
-            SimSim.log("", "…");
+            Config.log("", "…");
             waitForMessage();
         }
 
@@ -54,20 +54,22 @@ public class ClientMulticastThread extends Thread implements MulticastInterface 
 
         try {
             socket.receive(packet);
-            unserializeMessage(packet);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            unserializeCommand(packet);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void unserializeMessage(DatagramPacket packet) {
+    private void unserializeCommand(DatagramPacket packet) {
         ByteArrayInputStream buffer = new ByteArrayInputStream(packet.getData());
 
         try {
             ObjectInputStream inputStream = new ObjectInputStream(buffer);
 
-            Message message = (Message) inputStream.readObject();
-            SimSim.log("Socket", message.getCommand().name());
+            MulticastCommand command = (MulticastCommand) inputStream.readObject();
+            command.execute(control);
+
+            Config.log("Socket", command.getClass().getName());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

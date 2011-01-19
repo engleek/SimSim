@@ -39,4 +39,8 @@ public class GUI extends JFrame {
         setPreferredSize(getSize());
         setVisible(true);
     }
+
+    public void addClient(String name) {
+        infobox.addClient(name);
+    }
 }

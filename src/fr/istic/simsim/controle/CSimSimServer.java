@@ -26,4 +26,9 @@ public class CSimSimServer implements SimSimControl {
     public void echo(String message) {
         Config.log("MSG", message);
     }
+    
+    @Override
+    public void addClient(String name) {
+        // TODO: Find a use for this on server side
+    }
 }

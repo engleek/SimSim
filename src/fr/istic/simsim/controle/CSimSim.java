@@ -23,17 +23,25 @@ public class CSimSim implements SimSimControl {
         this.name = name;
 
         networkInterface = new ClientMulticastThread(this);
-        networkInterface.start();
-
-        ClientRMI clientRMI = new ClientRMI();
-        clientRMI.connect();
-
+        clientRMI = new ClientRMI();
         abstraction = new ASimSim(this);
-
         presentation = new PSimSim(this);
+
+        networkInterface.start();
+        clientRMI.connect(name);
     }
 
+    @Override
     public void echo(String message) {
         Config.log("MSG", message);
+    }
+
+    @Override
+    public void addClient(String name) {
+        if (name.equals(this.name)) {
+            presentation.addClient(name + " (you)");
+        } else {
+            presentation.addClient(name);
+        }
     }
 }

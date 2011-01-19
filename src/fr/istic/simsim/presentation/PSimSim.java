@@ -17,4 +17,8 @@ public class PSimSim {
         simulator = new Simulator();
         gui = new GUI(simulator);
     }
+
+    public void addClient(String name) {
+        gui.addClient(name);
+    }
 }

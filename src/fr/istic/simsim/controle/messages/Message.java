@@ -1,6 +1,4 @@
-package fr.istic.simsim.controle;
-
-import fr.istic.simsim.controle.client.MulticastInterface.MulticastCommand;
+package fr.istic.simsim.controle.messages;
 
 import java.io.Serializable;
 

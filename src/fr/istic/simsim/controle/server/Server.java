@@ -2,8 +2,9 @@ package fr.istic.simsim.controle.server;
 
 import fr.istic.simsim.Config;
 import fr.istic.simsim.controle.CSimSimServer;
-import fr.istic.simsim.controle.Message;
 import fr.istic.simsim.controle.client.MulticastInterface;
+import fr.istic.simsim.controle.messages.MulticastCommand;
+import fr.istic.simsim.controle.messages.NewClient;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -56,19 +57,19 @@ public class Server extends UnicastRemoteObject implements MulticastInterface, R
      * Multicast Server Methods
      */
 
-    public void broadcastMessage(Message message) {
+    public void broadcastCommand(MulticastCommand command) {
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(buffer);
 
-            out.writeObject(message);
+            out.writeObject(command);
             out.flush();
 
             DatagramPacket packet = new DatagramPacket(buffer.toByteArray(), buffer.toByteArray().length, InetAddress.getByName(Config.multicastHost), Config.multicastPort);
 
             socket.send(packet);
 
-            Config.log("Broadcast", message.getCommand().name());
+            Config.log("Broadcast", command.getClass().getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,14 +84,13 @@ public class Server extends UnicastRemoteObject implements MulticastInterface, R
      */
 
     @Override
-    public void connect() throws RemoteException {
+    public void connect(String name) throws RemoteException {
         Config.log("RMI", "Connect");
-        broadcastMessage(new Message(MulticastCommand.connect));
+        broadcastCommand(new NewClient(name));
     }
 
     @Override
     public void disconnect() throws RemoteException {
         Config.log("RMI", "Disconnect");
-        broadcastMessage(new Message(MulticastCommand.disconnect));
     }
 }

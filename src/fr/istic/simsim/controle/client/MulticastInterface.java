@@ -1,7 +1,7 @@
 package fr.istic.simsim.controle.client;
 
 public interface MulticastInterface {
-    enum MulticastCommand {
+    enum MulticastEnum {
         connect,
         disconnect
     }
