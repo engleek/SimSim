@@ -1,4 +1,4 @@
-package fr.istic.simsim.controle.messages;
+package fr.istic.simsim.controle.commands;
 
 import fr.istic.simsim.controle.SimSimControl;
 

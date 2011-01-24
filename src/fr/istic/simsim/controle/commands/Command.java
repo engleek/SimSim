@@ -1,12 +1,12 @@
-package fr.istic.simsim.controle.messages;
+package fr.istic.simsim.controle.commands;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
+public class Command implements Serializable {
 
     private MulticastCommand command;
 
-    public Message(MulticastCommand command) {
+    public Command(MulticastCommand command) {
         this.command = command;
     }
 
