@@ -3,8 +3,8 @@ package fr.istic.simsim.controle.server;
 import fr.istic.simsim.Config;
 import fr.istic.simsim.controle.CSimSimServer;
 import fr.istic.simsim.controle.client.MulticastInterface;
-import fr.istic.simsim.controle.messages.MulticastCommand;
-import fr.istic.simsim.controle.messages.NewClient;
+import fr.istic.simsim.controle.commands.MulticastCommand;
+import fr.istic.simsim.controle.commands.RefreshRoster;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,12 +16,18 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Server extends UnicastRemoteObject implements MulticastInterface, RemoteMethodServer {
 
     private CSimSimServer control;
 
-    private MulticastSocket socket;
+    private MulticastSocket   socket;
+
+    private HashMap<UUID, String> roster = new HashMap<UUID, String>();
 
     public Server(CSimSimServer control) throws IOException {
         this(control, "SimSimServerThread");
@@ -84,13 +90,27 @@ public class Server extends UnicastRemoteObject implements MulticastInterface, R
      */
 
     @Override
-    public void connect(String name) throws RemoteException {
+    public UUID connect(String name) throws RemoteException {
         Config.log("RMI", "Connect");
-        broadcastCommand(new NewClient(name));
+
+        UUID uuid = UUID.randomUUID();
+
+        roster.put(uuid, name);
+        broadcastCommand(new RefreshRoster());
+
+        return uuid;
     }
 
     @Override
-    public void disconnect() throws RemoteException {
+    public ArrayList<String> getRoster() {
+        return new ArrayList<String>(roster.values());
+    }
+
+    @Override
+    public void disconnect(UUID uuid) throws RemoteException {
         Config.log("RMI", "Disconnect");
+
+        roster.remove(uuid);
+        broadcastCommand(new RefreshRoster());
     }
 }

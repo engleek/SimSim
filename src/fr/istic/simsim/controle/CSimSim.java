@@ -7,6 +7,7 @@ import fr.istic.simsim.controle.client.ClientRMI;
 import fr.istic.simsim.presentation.PSimSim;
 
 import java.io.IOException;
+import java.util.Collection;
 
 public class CSimSim implements SimSimControl {
 
@@ -43,5 +44,11 @@ public class CSimSim implements SimSimControl {
         } else {
             presentation.addClient(name);
         }
+    }
+
+    @Override
+    public void getRoster() {
+        Collection<String> roster = clientRMI.getRoster();
+        presentation.setRoster(roster);
     }
 }

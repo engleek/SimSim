@@ -2,7 +2,7 @@ package fr.istic.simsim.controle.client;
 
 import fr.istic.simsim.Config;
 import fr.istic.simsim.controle.CSimSim;
-import fr.istic.simsim.controle.messages.MulticastCommand;
+import fr.istic.simsim.controle.commands.MulticastCommand;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

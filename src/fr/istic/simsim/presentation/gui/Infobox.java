@@ -2,6 +2,7 @@ package fr.istic.simsim.presentation.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 import java.util.Vector;
 
 public class Infobox extends JPanel {
@@ -42,5 +43,13 @@ public class Infobox extends JPanel {
 
     public void addClient(String name) {
         clients.addElement(name);
+    }
+
+    public void setRoster(Collection<String> roster) {
+        clients.clear();
+
+        for (String name : roster) {
+            clients.addElement(name);
+        }
     }
 }

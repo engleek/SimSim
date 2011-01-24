@@ -4,6 +4,7 @@ import fr.istic.simsim.presentation.simulator.Simulator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 
 public class GUI extends JFrame {
 
@@ -42,5 +43,9 @@ public class GUI extends JFrame {
 
     public void addClient(String name) {
         infobox.addClient(name);
+    }
+
+    public void setRoster(Collection<String> roster) {
+        infobox.setRoster(roster);
     }
 }

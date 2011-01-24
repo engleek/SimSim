@@ -4,6 +4,8 @@ import fr.istic.simsim.controle.CSimSim;
 import fr.istic.simsim.presentation.gui.GUI;
 import fr.istic.simsim.presentation.simulator.Simulator;
 
+import java.util.Collection;
+
 public class PSimSim {
 
     private final CSimSim controle;
@@ -20,5 +22,9 @@ public class PSimSim {
 
     public void addClient(String name) {
         gui.addClient(name);
+    }
+
+    public void setRoster(Collection<String> roster) {
+        gui.setRoster(roster);
     }
 }

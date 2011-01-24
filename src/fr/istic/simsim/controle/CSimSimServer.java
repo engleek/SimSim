@@ -31,4 +31,10 @@ public class CSimSimServer implements SimSimControl {
     public void addClient(String name) {
         // TODO: Find a use for this on server side
     }
+
+    @Override
+    public void getRoster() {
+        // TODO: Find a use for this on server side
+    }
+
 }
