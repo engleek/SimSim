@@ -41,10 +41,6 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    public void addClient(String name) {
-        infobox.addClient(name);
-    }
-
     public void setRoster(Collection<String> roster) {
         infobox.setRoster(roster);
     }

@@ -38,15 +38,6 @@ public class CSimSim implements SimSimControl {
     }
 
     @Override
-    public void addClient(String name) {
-        if (name.equals(this.name)) {
-            presentation.addClient(name + " (you)");
-        } else {
-            presentation.addClient(name);
-        }
-    }
-
-    @Override
     public void getRoster() {
         Collection<String> roster = clientRMI.getRoster();
         presentation.setRoster(roster);

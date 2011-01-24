@@ -20,10 +20,6 @@ public class PSimSim {
         gui = new GUI(simulator);
     }
 
-    public void addClient(String name) {
-        gui.addClient(name);
-    }
-
     public void setRoster(Collection<String> roster) {
         gui.setRoster(roster);
     }
