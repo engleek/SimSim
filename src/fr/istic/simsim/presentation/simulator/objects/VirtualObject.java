@@ -10,7 +10,7 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
 import java.awt.*;
 
-public class VirtualObject extends TransformGroup {
+public abstract class VirtualObject extends TransformGroup {
 
     public VirtualObject(Transform3D transform3D) {
         super(transform3D);

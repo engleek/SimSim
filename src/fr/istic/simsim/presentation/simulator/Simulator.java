@@ -8,6 +8,8 @@ import com.sun.j3d.utils.picking.behaviors.PickTranslateBehavior;
 import com.sun.j3d.utils.picking.behaviors.PickZoomBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import fr.istic.simsim.presentation.simulator.behaviors.KeyNavigatorBehavior;
+import fr.istic.simsim.presentation.simulator.objects.VirtualCube;
+import fr.istic.simsim.presentation.simulator.objects.VirtualObject;
 import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
 
 import javax.media.j3d.*;
@@ -57,10 +59,6 @@ public class Simulator extends Canvas3D {
         sceneTrans.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
         sceneTrans.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
 
-        ColorCube cube = new ColorCube(0.2);
-        cube.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
-        sceneTrans.addChild(cube);
-
         TransformGroup viewTransform = universe.getViewingPlatform().getViewPlatformTransform();
         keyNav = new KeyNavigatorBehavior(viewTransform);
         keyNav.setSchedulingBounds(new BoundingSphere(new Point3d(), 1000.0));
@@ -100,10 +98,21 @@ public class Simulator extends Canvas3D {
         final VrmlLoader loader = new VrmlLoader();
         try {
             final Scene vrmlScene = loader.load(fileName);
-            addChild(vrmlScene.getSceneGroup());
+
+            BranchGroup vrmlBranchGroup = vrmlScene.getSceneGroup();
+            vrmlBranchGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+            vrmlBranchGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+            vrmlBranchGroup.setCapability(Node.ENABLE_PICK_REPORTING);
+
+            addChild(vrmlBranchGroup);
         } catch (final Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void addObject(VirtualObject object) {
+        BranchGroup group = new BranchGroup();
+        group.addChild(object);
+        addChild(group);
+    }
 }

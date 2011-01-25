@@ -27,6 +27,8 @@ public class Server extends UnicastRemoteObject implements MulticastInterface, R
 
     private MulticastSocket   socket;
 
+    private int packetCount = 0;
+
     private HashMap<UUID, String> roster = new HashMap<UUID, String>();
 
     public Server(CSimSimServer control) throws IOException {
@@ -40,8 +42,9 @@ public class Server extends UnicastRemoteObject implements MulticastInterface, R
 
         // Setup Multicast
         try {
-            socket = new MulticastSocket();
+            socket = new MulticastSocket(Config.multicastPort);
             socket.joinGroup(InetAddress.getByName(Config.multicastHost));
+            socket.setTimeToLive(64);
 
             Config.log("", "Multicast Server ready");
         } catch (Exception e) {
@@ -74,8 +77,9 @@ public class Server extends UnicastRemoteObject implements MulticastInterface, R
             DatagramPacket packet = new DatagramPacket(buffer.toByteArray(), buffer.toByteArray().length, InetAddress.getByName(Config.multicastHost), Config.multicastPort);
 
             socket.send(packet);
+            packetCount++;
 
-            Config.log("Broadcast", command.getClass().getName());
+            Config.log("Broadcast[" + packetCount + "]", command.getClass().getName());
         } catch (IOException e) {
             e.printStackTrace();
         }

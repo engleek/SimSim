@@ -2,6 +2,7 @@ package fr.istic.simsim.presentation.simulator.objects;
 
 import com.sun.j3d.utils.geometry.ColorCube;
 
+import javax.media.j3d.Geometry;
 import javax.media.j3d.Node;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -16,6 +17,7 @@ public class VirtualCube extends VirtualObject {
         setCapability(Node.ENABLE_PICK_REPORTING);
 
         ColorCube cube = new ColorCube(1.0);
+        cube.getGeometry().setCapability(Geometry.ALLOW_INTERSECT);
 
         addChild(cube);
     }

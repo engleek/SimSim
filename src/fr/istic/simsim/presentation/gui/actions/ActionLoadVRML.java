@@ -1,5 +1,7 @@
 package fr.istic.simsim.presentation.gui.actions;
 
+import fr.istic.simsim.presentation.PSimSim;
+import fr.istic.simsim.presentation.gui.GUI;
 import fr.istic.simsim.presentation.gui.Menu;
 import fr.istic.simsim.presentation.simulator.Simulator;
 
@@ -12,13 +14,13 @@ public class ActionLoadVRML extends AbstractAction {
 
     private final Menu parent;
 
-    private final Simulator simulator;
+    private final PSimSim presentation;
 
-    public ActionLoadVRML(final Menu parent, Simulator simulator) {
+    public ActionLoadVRML(final Menu parent, PSimSim presentation) {
         super("Charger VRML…");
 
         this.parent = parent;
-        this.simulator = simulator;
+        this.presentation = presentation;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class ActionLoadVRML extends AbstractAction {
         if (result == JFileChooser.APPROVE_OPTION) {
             final String fileName = chooser.getSelectedFile().getPath();
             System.out.println("Fichier chargé : " + fileName);
-            simulator.loadVRML(fileName);
+            presentation.loadVRML(fileName);
         }
     }
 }

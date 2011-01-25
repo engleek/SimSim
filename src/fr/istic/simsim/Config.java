@@ -13,6 +13,6 @@ public class Config {
     public static int rmiPort       = 2020;
 
     public static void log(String source, String message) {
-        System.out.println(String.format("%1$#" + 20 + "s", source) + " > " + new Date().getTime() + " > " + message);
+        System.out.println(String.format("%1$#" + 20 + "s", source) + " > " + message);
     }
 }

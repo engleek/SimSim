@@ -18,6 +18,10 @@ public class ClientMulticastThread extends Thread implements MulticastInterface 
     private boolean running = true;
 
     private MulticastSocket socket;
+    private DatagramPacket  packet;
+    private byte[]          buffer;
+
+    private int packetCount = 0;
 
     public ClientMulticastThread(CSimSim controle) throws IOException {
         this("SimSimServerThread", controle);
@@ -36,8 +40,11 @@ public class ClientMulticastThread extends Thread implements MulticastInterface 
 
     @Override
     public void run() {
+
         while (running) {
             Config.log("", "…");
+            buffer = new byte[1024];
+            packet = new DatagramPacket(buffer, 1024);
             waitForMessage();
         }
 
@@ -49,11 +56,9 @@ public class ClientMulticastThread extends Thread implements MulticastInterface 
     }
 
     private void waitForMessage() {
-        byte[] buffer = new byte[1024];
-        DatagramPacket packet = new DatagramPacket(buffer, 1024);
-
         try {
             socket.receive(packet);
+            packetCount++;
             unserializeCommand(packet);
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +74,7 @@ public class ClientMulticastThread extends Thread implements MulticastInterface 
             MulticastCommand command = (MulticastCommand) inputStream.readObject();
             command.execute(control);
 
-            Config.log("Socket", command.getClass().getName());
+            Config.log("Socket[" + packetCount + "]", command.getClass().getName());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

@@ -1,5 +1,6 @@
 package fr.istic.simsim.presentation.gui;
 
+import fr.istic.simsim.presentation.PSimSim;
 import fr.istic.simsim.presentation.simulator.Simulator;
 
 import javax.swing.*;
@@ -17,14 +18,14 @@ public class GUI extends JFrame {
 
     private Menu menu;
 
-    public GUI(final Simulator simulator) {
+    public GUI(final Simulator simulator, PSimSim presentation) {
         super("Sim");
 
         setLayout(new BorderLayout());
 
         controls = new Controls();
         infobox = new Infobox();
-        menu = new Menu(simulator);
+        menu = new Menu(presentation);
         statusBar = new StatusBar();
 
         add(simulator, BorderLayout.CENTER);
